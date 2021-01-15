@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+    
+	<!-- enable annotation scanning, components configured with annotations under the package common.ddts and its subpackages are automatically scanned -->
+	<context:component-scan base-package="comm.ddts.ac">
+		<!-- not scan  @Controller class -->
+		<context:exclude-filter type="annotation"	expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<!-- enable aop，this is how the AOP annotations in the Java class will take 	effect -->
+	<aop:aspectj-autoproxy />
+	
+	<!-- log4j aspect start -->
+	<!-- config proxy of aop-->
+	 <aop:config>  
+        <aop:aspect id="aspect" ref="aspectBean">  
+            <!--config pointcut:  all methods of all class and interfaces in com.ddts.ac.service package-->  
+            <aop:pointcut id="logService"   expression="execution(* com.ddts.ac.service.*.*(..))" /> 
+            <!-- config notification of pointcut --> 
+            <aop:before pointcut-ref="logService" method="doBefore"/>  
+            <aop:after pointcut-ref="logService" method="doAfter"/>  
+            <aop:around pointcut-ref="logService" method="doAround"/>  
+        </aop:aspect>  
+    </aop:config> 
+    
+    <!-- config aspect class --> 
+    <bean id="aspectBean" class="com.ddts.ac.common.aspect.log4jAspect" />  
+    <!-- config destination object of aspect-->
+    <bean id="employeeService" class="com.ddts.ac.service.EmployeeServiceImpl" /> 
+    <!-- log4j aspect end -->
+</beans>

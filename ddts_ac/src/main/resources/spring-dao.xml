@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<beans xmlns="http://www.springframework.org/schema/beans"    
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"    
+    xmlns:context="http://www.springframework.org/schema/context"    
+    xmlns:mvc="http://www.springframework.org/schema/mvc"    
+    xsi:schemaLocation="http://www.springframework.org/schema/beans      
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd      
+                        http://www.springframework.org/schema/context      
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd      
+                        http://www.springframework.org/schema/mvc      
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">                       
+                            
+    <!-- the package name of the DAO interface, and Spring looks for the class below it automatically -->    
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">    
+        <!--BasePackage specifies the package to scan, and mappers under this package will be searched. Specifies multiple packages separated by "," or ";" -->    
+        <property name="basePackage" value="com.ddts.dao" />    
+        <!-- myBatis is centered on an instance of SqlSessionFactory.  SQLSessionFactory can be obtained through the SQLSessionFactoryBuilder instance. 
+        With mybatis-spring, session creation can be replaced by SQLSessionFactoryBean. -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>    
+    </bean>                                                     
+</beans>  
